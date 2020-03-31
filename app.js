@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const cors = require('cors')
+
 const route = require('./routes/index')
 const errorHandler = require('./middlewares/errorHandler')
 

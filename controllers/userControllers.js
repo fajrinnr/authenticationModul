@@ -11,12 +11,12 @@ let tfaToken = ''
 class UserController {
 
   static async login(req, res, next) {
-    let userEmail = {
-      where: {
-        email_address: req.body.email
-      }
-    }
     try {
+      let userEmail = {
+        where: {
+          email_address: req.body.email
+        }
+      }
       const user = await User.findOne(userEmail)
       if (!user) {
         let errorMsg = {
@@ -49,7 +49,7 @@ class UserController {
     }
   }
 
-  static async register(req, res, next) {
+  static async register(req, res, next  ) {
     const { name, email, password } = req.body
     try {
       console.log(name, email, password)
@@ -127,12 +127,7 @@ class UserController {
             throw errorMsg
           } else {
             const response = await User.update(updatePassword, userId)
-            console.log(response)
-            if (response[0] == 0) {
-              res.send('ga edit')
-            } else {
-              res.send('succesfully edit')
-            }
+            res.status(200).json('Succesfully updated password')
           }
         } else {
           let errorMsg = {

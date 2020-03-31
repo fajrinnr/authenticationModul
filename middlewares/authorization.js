@@ -14,7 +14,6 @@ class Authorization {
         next()
       }
     } catch (error) {
-      res.send(error)
       next(error)
     }
   }
@@ -38,7 +37,6 @@ class Authorization {
         next()
       }
     } catch (error) {
-      res.send(error)
       next(error)
     }
   }
