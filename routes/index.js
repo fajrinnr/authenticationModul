@@ -6,7 +6,7 @@ const authorization = require('../middlewares/authorization')
 indexRouter.post('/register', userController.register)
 indexRouter.post('/login', userController.login)
 indexRouter.use(authentication)
-indexRouter.post('/2fa', userController.TwoFactorAuthentication)
+indexRouter.post('/authentication', userController.TwoFactorAuthentication)
 indexRouter.put('/resetpassword/:id',  authorization.userAuthorize, userController.resetPassword)
 
 module.exports = indexRouter

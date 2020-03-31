@@ -34,7 +34,15 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {
           args: true,
           msg: 'Email cannot be null'
-        }
+        },
+        isExist: (value => {
+          return User.count({ where: { email_address: value}})
+          .then(count => {
+            if (count != 0){
+              throw new Error('Email already exist.')
+            }
+          })
+        })
       }
     },
     password: {

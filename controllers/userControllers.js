@@ -5,9 +5,6 @@ const jwt = require('../helpers/jwt')
 const authenticator = require('authenticator')
 const sentEmail = require('../helpers/sentEmail')
 
-let tfaKey = ''
-let tfaToken = ''
-
 class UserController {
 
   static async login(req, res, next) {
@@ -26,14 +23,15 @@ class UserController {
         throw errorMsg
       } else {
         if (bcrypt.checkPass(req.body.password, user.password)) {
-          tfaKey = authenticator.generateKey();
-          tfaToken = authenticator.generateToken(tfaKey);
+          let tfaKey = authenticator.generateKey();
+          let tfaToken = authenticator.generateToken(tfaKey);
           sentEmail(user.email_address, tfaToken)
           let userData = {
             id: user.id,
             name: user.full_name,
             email: user.email_address,
-            status: user.status
+            status: user.status,
+            token: tfaToken
           }
           res.status(200).json({ userData, token: jwt.createToken(userData) })
         } else {
@@ -68,7 +66,7 @@ class UserController {
 
   static async TwoFactorAuthentication(req, res, next) {
     try {
-      if (tfaToken === String(req.body.token)) {
+      if (req.user.token === String(req.body.token)) {
         const statusChange = {
           status: true
         }
