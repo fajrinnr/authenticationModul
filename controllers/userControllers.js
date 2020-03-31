@@ -26,14 +26,20 @@ class UserController {
           let tfaKey = authenticator.generateKey();
           let tfaToken = authenticator.generateToken(tfaKey);
           sentEmail(user.email_address, tfaToken)
-          let userData = {
+          let dataUser = {
             id: user.id,
             name: user.full_name,
             email: user.email_address,
             status: user.status,
             token: tfaToken
           }
-          res.status(200).json({ userData, token: jwt.createToken(userData) })
+          let userData = {
+            id: user.id,
+            name: user.full_name,
+            email: user.email_address,
+            status: user.status
+          }
+          res.status(200).json({ userData, token: jwt.createToken(dataUser) })
         } else {
           let errorMsg = {
             status: 400,
